@@ -1,0 +1,314 @@
+:root {
+  --bg-main: #eef7fa;
+  --card-bg: #ffffff;
+  --border-cyan: #7cd5e3;
+  --border-pink: #ff77a9;
+  --text-primary: #335566;
+  --text-pink: #d84374;
+  --alert-red: #ff4d6d;
+  --header-bg: #e2f5f8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Verdana', 'Segoe UI', sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 10px;
+  font-size: 0.82rem;
+}
+
+/* Moldura Externa Trava o Site na Tela (Sem Rolagem Horizontal) */
+.site-wrapper {
+  max-width: 100%;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 3px solid var(--border-cyan);
+  padding: 8px;
+  box-shadow: 0 4px 15px rgba(124, 213, 227, 0.3);
+  overflow: hidden; /* Garante que nada passe das bordas azuis */
+}
+
+/* 🖼️ BANNER DO TOPO AJUSTADO */
+header.banner {
+  width: 100%;
+  height: 180px; /* Altura fixa do banner */
+  margin-bottom: 12px;
+  border: 2px solid var(--border-cyan);
+  overflow: hidden;
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  position: relative;
+  text-align: center;
+}
+
+.banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Encaixa a imagem sem distorcer */
+  object-position: center;
+  display: block;
+}
+
+.banner-fallback-text {
+  padding: 20px;
+}
+
+.banner-fallback-text h1 {
+  margin: 0;
+  color: var(--text-pink);
+  font-size: 1.6rem;
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 0px #fff;
+}
+
+/* 📐 GRID EM 3 COLUNAS FLEXÍVEIS */
+.main-grid {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr) 270px;
+  gap: 8px;
+}
+
+/* 🪟 JANELAS ESTILIZADAS */
+.window-card {
+  background: var(--card-bg);
+  border: 2px solid var(--border-cyan);
+  margin-bottom: 10px;
+  box-shadow: 2px 2px 0px rgba(124, 213, 227, 0.4);
+  min-width: 0; /* Impede que os cartões estoure a largura */
+}
+
+.window-header {
+  background-color: var(--header-bg);
+  color: var(--text-pink);
+  font-weight: bold;
+  font-size: 0.8rem;
+  padding: 6px 8px;
+  border-bottom: 2px solid var(--border-cyan);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.window-body {
+  padding: 8px;
+}
+
+/* CAMPOS E FORMULÁRIOS */
+.form-group {
+  margin-bottom: 8px;
+}
+
+.form-row {
+  display: flex;
+  gap: 4px;
+}
+
+.form-row input {
+  min-width: 0; /* Permite que os campos duplos encolham para caber */
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  font-size: 0.72rem;
+  margin-bottom: 2px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid var(--border-cyan);
+  background-color: #fbfdff;
+  font-size: 0.78rem;
+  color: var(--text-primary);
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--border-pink);
+}
+
+.section-subtitle {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-pink);
+  margin-bottom: 6px;
+}
+
+.divider {
+  border: 0;
+  border-top: 1px dashed var(--border-cyan);
+  margin: 8px 0;
+}
+
+.hint-text {
+  font-size: 0.68rem;
+  color: #666;
+  display: block;
+  margin-top: 2px;
+}
+
+/* BOTÕES */
+.btn {
+  background-color: #ffffff;
+  color: var(--text-pink);
+  border: 2px solid var(--border-pink);
+  padding: 5px 10px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.78rem;
+  transition: all 0.2s;
+}
+
+.btn:hover {
+  background-color: var(--border-pink);
+  color: white;
+}
+
+.btn-full {
+  width: 100%;
+}
+
+.btn-cancel {
+  border-color: #888;
+  color: #555;
+}
+
+.btn-cancel:hover {
+  background-color: #888;
+  color: #fff;
+}
+
+.btn-edit {
+  color: #1976d2;
+  border-color: #1976d2;
+}
+
+.btn-edit:hover {
+  background-color: #1976d2;
+  color: white;
+}
+
+.btn-delete {
+  color: var(--alert-red);
+  border-color: var(--alert-red);
+}
+
+.btn-delete:hover {
+  background-color: var(--alert-red);
+  color: white;
+}
+
+/* TABELA DE ESTOQUE */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.75rem;
+  min-width: 500px;
+}
+
+th {
+  background-color: var(--header-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-cyan);
+  padding: 6px;
+  text-align: left;
+  position: sticky;
+  top: 0;
+}
+
+td {
+  border: 1px solid var(--border-cyan);
+  padding: 6px;
+  vertical-align: top;
+}
+
+tr.alerta-estoque {
+  background-color: #fff0f3;
+}
+
+.badge-alerta {
+  color: var(--alert-red);
+  font-weight: bold;
+  font-size: 0.68rem;
+}
+
+.status-online {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.actions-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+/* CALCULADORA / RESULTADOS */
+.result-box {
+  margin-top: 8px;
+  padding: 8px;
+  border: 1px dashed var(--border-pink);
+  background: #fff8fa;
+  display: none;
+}
+
+.res-item {
+  margin: 3px 0;
+  font-size: 0.75rem;
+}
+
+footer {
+  text-align: center;
+  font-size: 0.72rem;
+  color: #88aab5;
+  margin-top: 10px;
+  padding: 5px;
+  border-top: 1px solid var(--border-cyan);
+}
+
+/* 🎵 ESTILIZAÇÃO DA JUKEBOX DE BUSCA DIRETA */
+.player-container {
+  width: 100%;
+  margin-top: 8px;
+  border: 2px solid var(--border-cyan);
+  background: #ffffff;
+  border-radius: 4px;
+  overflow: hidden;
+  min-height: 120px;
+}
+
+.player-container iframe {
+  width: 100%;
+  height: 130px;
+  border: 0;
+  display: block;
+}
+
+.player-placeholder {
+  padding: 20px 10px;
+  text-align: center;
+  font-size: 0.72rem;
+  color: #88aab5;
+  background-color: #fafdfd;
+}
+
+/* RESPONSIVIDADE PARA TELAS DE CELULAR OU PEQUENAS */
+@media (max-width: 900px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Armazém - Controle de Estoque</title>
+  <link rel="stylesheet" href="my.css">
+</head>
+<body>
+
+  <div class="site-wrapper">
+    <header class="banner">
+      <img src="banner.jpg" alt="Banner Armazém" class="banner-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <div class="banner-fallback-text" style="display: none;">
+        <h1>༄˖°.🍂.ೃ࿔*:･𝔸𝕣𝕞𝕒𝕫𝕖𝕞༄˖°.🍂.ೃ࿔*:･</h1>
+      </div>
+    </header>
+
+    <main class="main-grid">
+      
+      <aside class="left-column">
+        <div class="window-card">
+          <div class="window-header">𝓑𝓾𝓼𝓬𝓪</div>
+          <div class="window-body">
+            <div class="form-group">
+              <input type="text" id="input_busca" placeholder="Buscar por produto, cidade, CNPJ..." onkeyup="filtrarProdutos()">
+            </div>
+          </div>
+        </div>
+
+        <div class="window-card">
+          <div class="window-header">𝓟𝓪𝓲𝓷𝓮𝓵</div>
+          <div class="window-body">
+            <p class="hint-text"><strong>Total de Itens:</strong> <span id="stat_total">0</span></p>
+            <p class="hint-text"><strong>Status:</strong> <span class="status-online">• LocalStorage Ativo</span></p>
+          </div>
+        </div>
+
+        <div class="window-card">
+          <div class="window-header">𝄞⨾💿✮˚.⋆𝕁𝕦𝕟𝕜𝕓𝕠𝕩𝄞⨾💿✮˚.⋆</div>
+          <div class="window-body">
+            <div class="form-group">
+              <label for="radio_select">Estação / Estilo:</label>
+              <select id="radio_select" onchange="trocarEstacao()">
+                <option value="">-- Selecione uma Estação --</option>
+                <option value="rock">🎸⋆⭒˚｡⋆ℝ𝕠𝕔𝕜🎸⋆⭒˚｡⋆</option>
+                <option value="bossa">⋆⭒˚.⋆𝔹𝕠𝕤𝕤𝕒 𝕟𝕠𝕧𝕒⋆⭒˚.⋆</option>
+              </select>
+            </div>
+
+            <p class="hint-text" id="info_tocando" style="margin-bottom: 5px;">
+              Tocando: <em>Nenhuma estação selecionada</em>
+            </p>
+
+            <div class="player-container">
+              <audio id="audio_player" controls style="width: 100%; margin-top: 5px;">
+                Seu navegador não suporta o reprodutor de áudio.
+              </audio>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <section class="center-column">
+        <div class="window-card">
+          <div class="window-header">𝓔𝓼𝓽𝓸𝓺𝓾𝓮</div>
+          <div class="window-body">
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Produto</th>
+                    <th>Qtd</th>
+                    <th>Preços (Custo / Venda)</th>
+                    <th>Distribuidor & Endereço</th>
+                    <th>Contato / CNPJ</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela_estoque_body">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="right-column">
+        <div class="window-card">
+          <div class="window-header" id="form_title">𝓒𝓪𝓭𝓪𝓼𝓽𝓻𝓸 𝓭𝓮 𝓲𝓽𝓮𝓶</div>
+          <div class="window-body">
+            <form id="form_item" onsubmit="salvarItem(event)">
+              <input type="hidden" id="edit_index" value="-1">
+
+              <div class="form-group">
+                <label for="cad_nome">Nome do Produto:</label>
+                <input type="text" id="cad_nome" required placeholder="Ex: Caixa de Papelão M">
+              </div>
+
+              <div class="form-group">
+                <div class="form-row">
+                  <div>
+                    <label for="cad_qtd">Quantidade e Local no Estoque:</label>
+                    <input type="number" id="cad_qtd" required placeholder="Qtd" min="0">
+                  </div>
+                  <div>
+                    <label>&nbsp;</label>
+                    <input type="text" id="cad_local" required placeholder="Prateleira/Setor">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Preço Custo / Venda (R$):</label>
+                <div class="form-row">
+                  <input type="number" id="cad_custo" step="0.01" required placeholder="Custo R$" min="0" oninput="sugerirPrecoVendaFormulario()">
+                  <input type="number" id="cad_venda" step="0.01" required placeholder="Venda R$" min="0">
+                </div>
+                <span class="hint-text" id="dica_preco">Insira o custo para ver a sugestão</span>
+              </div>
+
+              <hr class="divider">
+
+              <span class="section-subtitle">Dados do Distribuidor:</span>
+
+              <div class="form-group">
+                <label for="cad_distribuidor">Nome / Razão Social:</label>
+                <input type="text" id="cad_distribuidor" required placeholder="Ex: Atacadão S/A">
+              </div>
+
+              <div class="form-group">
+                <label>CNPJ e Contato:</label>
+                <div class="form-row">
+                  <input type="text" id="cad_cnpj" placeholder="00.000.000/0001-00" oninput="mascaraCNPJ(this)" maxlength="18">
+                  <input type="text" id="cad_contato" required placeholder="(00) 00000-0000" oninput="mascaraTelefone(this)" maxlength="15">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="cad_endereco">Endereço (CEP, Rua, Nº, Cidade):</label>
+                <input type="text" id="cad_endereco" required placeholder="Ex: Rua Flores, 123 - São Paulo/SP (CEP: 00000-000)">
+              </div>
+
+              <div class="form-row" style="margin-top: 10px;">
+                <button type="submit" class="btn btn-full" id="btn_salvar">Adicionar ao Estoque</button>
+                <button type="button" class="btn btn-cancel" id="btn_cancelar" onclick="limparFormulario()" style="display: none;">Cancelar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="window-card">
+          <div class="window-header">𝓒𝓪𝓵𝓬𝓾𝓵𝓪𝓭𝓸𝓻𝓪</div>
+          <div class="window-body">
+            <div class="form-group">
+              <label for="sim_select">Selecionar Produto:</label>
+              <select id="sim_select" onchange="carregarPrecoSimulacao()">
+                <option value="">-- Selecione --</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Custo Unitário / Qtd do Lote:</label>
+              <div class="form-row">
+                <input type="number" step="0.01" id="sim_preco" placeholder="R$ Custo">
+                <input type="number" id="sim_qtd" placeholder="Qtd Lote" min="1" value="10">
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-full" onclick="calcularCustoEComercializacao()">Analisar Lucro Ideal</button>
+            
+            <div id="resultado_simulacao" class="result-box" style="display: none; margin-top: 8px;">
+              <p class="res-item">Custo Total Lote: <strong id="total_lote">R$ 0,00</strong></p>
+              <p class="res-item">Sugestão de Venda Un.: <strong id="sugestao_venda" style="color:var(--text-pink, #d84374);">R$ 0,00</strong></p>
+              <p class="res-item">Lucro Estimado/Un: <strong id="lucro_estimado" style="color:#2e7d32;">R$ 0,00</strong></p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+    </main>
+
+    <footer>
+      Armazém &copy; 2026 - NR editor
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
